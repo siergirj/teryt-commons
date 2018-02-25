@@ -17,7 +17,7 @@ with open(cfg['terc']['path']) as file:
     r = csv.reader(file, delimiter=';')
     r.next()
     
-    # drop all cities from collection
+    # drop all cities from collection 
     if cfg['drop']:
         c.truncate()
 
