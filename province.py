@@ -9,7 +9,8 @@ cfg = config()
 mongo = MongoClient(cfg['mongo']['host'], cfg['mongo']['port'])
 db = mongo.teryt
 
-#functions to manipulate province collection
+
+# functions to manipulate province collection
 class ProvinceDAO:
     
     # get all

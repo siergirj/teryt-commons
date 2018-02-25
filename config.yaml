@@ -1,17 +1,16 @@
 terc:
   path: ./data/TERC_Urzedowy_2018-02-24.csv
   type:
-    province:
-    city: miasto 
-     
+    province: null
+    city: miasto
 mongo:
   host: localhost
   port: 27017
   collection:
-    province: 
+    province:
       name: province
       drop: true
-    city: 
+    city:
       name: city
       drop: true
   refresh: true

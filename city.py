@@ -9,7 +9,8 @@ with open("./config.yaml", 'r') as config:
 mongo = MongoClient(cfg['mongo']['host'], cfg['mongo']['port'])
 db = mongo.teryt
 
-#functions to manipulate city collection
+
+# functions to manipulate city collection
 class CityDAO:
     
     # get all

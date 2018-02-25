@@ -13,7 +13,7 @@ cfg = config()
 c = CityDAO()
 p = ProvinceDAO()
 
-
+ 
 # drop all collections before load 
 def refresh():
     if cfg['mongo']['refresh']: 
@@ -39,6 +39,7 @@ def load_terc():
                     print('asd')
                 elif row[5] == cfg['terc']['type']['county']:        
                     print('asd')
+
 
 def main():
     # drop all collections before load 
