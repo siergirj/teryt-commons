@@ -8,8 +8,10 @@ mongo:
   host: localhost
   port: 27017
   collection:
-    province: province
-    city: city
-      
-      
-drop: true
+    province: 
+      name: province
+      drop: true
+    city: 
+      name: city
+      drop: true
+  refresh: true

@@ -1,20 +1,20 @@
-from pymongo import MongoClient
 import yaml
+from pymongo import MongoClient
+from utils import config
 
 # read configuration
-with open("./config.yaml", 'r') as config:
-    cfg = yaml.load(config)
+cfg = config()
 
 # open DB connection
 mongo = MongoClient(cfg['mongo']['host'], cfg['mongo']['port'])
 db = mongo.teryt
 
-#functions to manipulate city collection
-class CityDAO:
+#functions to manipulate province collection
+class ProvinceDAO:
     
     # get all
     def find_all(self):
-        cursor = db.city.find()
+        cursor = db.province.find()
         result = []
         for c in cursor:
             data = {}
@@ -25,18 +25,14 @@ class CityDAO:
         return result
     
     # save city
-    def save(self, id, province_id, name, timestamp):
-        return db.city.insert_one(
+    def save(self, id, name, timestamp):
+        return db.province.insert_one(
                 {
                     "id" : id,
-                    "province_id" : province_id,
                     "name" : name,
                     "timestamp": timestamp
                 }
             )
         
     def truncate(self):
-        db.city.drop()
-
-# data['province_id'] = c['province_id']
-            # data['timestamp'] = c['timestamp']        
+        db.province.drop()
