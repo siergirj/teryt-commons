@@ -42,9 +42,9 @@ def load_terc():
      
         for row in r:
             if row:  # if row not empty
-                if row[5] in [type['city']['regular'], type['city']['capital'], type['city']['county']]:  # if row represents city
+                if row[5].decode('utf-8') in [type['city']['regular'], type['city']['capital'], type['city']['county']]:  # if row represents city
                     city.save('test_id', row[0], row[4], row[5], row[6])
-                elif row[5] in [type['commune']['city'], type['commune']['village'], type['commune']['city_village']]:
+                elif row[5].decode('utf-8') in [type['commune']['city'], type['commune']['village'], type['commune']['city_village'], type['commune']['capital']]:
                     commune.save(row[0], row[4], row[5], row[6])
                 elif row[5] == type['village']:  
                     village.save(row[0], row[4], row[6])
@@ -54,10 +54,6 @@ def load_terc():
                     district.save(row[0], row[4], row[5], row[6])
                 elif row[5].decode('utf-8') == type['province']:  
                     province.save(row[0], row[4], row[6])
-                
-                else:
-                    print row
-
 
 def main():
     # drop all collections before load 

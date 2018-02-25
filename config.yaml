@@ -4,12 +4,13 @@ terc:
     province: województwo
     city: 
       regular: miasto
-      capital: 
+      capital: miasto stołeczne, na prawach powiatu
       county: miasto na prawach powiatu
     commune: 
       city: gmina miejska
       village: gmina wiejska
       city_village: gmina miejsko-wiejska
+      capital: gmina miejska, miasto stołeczne
     county: powiat
     village: obszar wiejski
     district:
