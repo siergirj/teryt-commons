@@ -1,24 +1,33 @@
 import csv
-import yaml
-from datetime import datetime
-from pymongo import MongoClient
 from city import CityDAO
 from province import ProvinceDAO
+from county import CountyDAO
+from commune import CommuneDAO
+from district import DistrictDAO
+from village import VillageDAO
 from utils import config
 
 # read configuration
 cfg = config()
 
 # DAO to manipulate collections
-c = CityDAO()
-p = ProvinceDAO()
+city = CityDAO()
+province = ProvinceDAO()
+commune = CommuneDAO()
+county = CountyDAO()
+district = DistrictDAO()
+village = VillageDAO()
 
  
 # drop all collections before load 
 def refresh():
     if cfg['mongo']['refresh']: 
-        c.truncate()
-        p.truncate()
+        city.truncate()
+        province.truncate()
+        commune.truncate()
+        county.truncate()
+        district.truncate()
+        village.truncate()
 
 
 # load TERC collections
@@ -29,16 +38,27 @@ def load_terc():
         r = csv.reader(file, delimiter=';')
         r.next()
         
+        r.encoding()
+        
+        type = cfg['terc']['type']
+     
         for row in r:
-            if row:  # row not empty
-                if row[5] == cfg['terc']['type']['city']:  # if row represents city
-                    c.save ('test_id', row[0], row[4], datetime.strptime(row[6], "%Y-%m-%d"))
-                elif row[5] == cfg['terc']['type']['commune']:
-                    print('asd')    
-                elif row[5] == cfg['terc']['type']['province']:  
-                    print('asd')
-                elif row[5] == cfg['terc']['type']['county']:        
-                    print('asd')
+            if row:  # if row not empty
+                if row[5] in [type['city']['regular'], type['city']['capital'], type['city']['county']]:  # if row represents city
+                    city.save('test_id', row[0], row[4], row[5], row[6])
+                elif row[5] in [type['commune']['city'], type['commune']['village'], type['commune']['city_village']]:
+                    commune.save(row[0], row[4], row[5], row[6])
+                elif row[5] == type['village']:  
+                    village.save(row[0], row[4], row[6])
+                elif row[5] == type['county']:        
+                    county.save(row[0], row[4], row[6])
+                elif row[5] in [type['district']['regular'], type['district']['delegacy']]:        
+                    district.save(row[0], row[4], row[5], row[6])
+                elif row[5] == type['province']:  
+                    province.save(row[0], row[4], row[6])
+                
+                else:
+                    print row
 
 
 def main():

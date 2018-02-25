@@ -1,8 +1,22 @@
 terc:
   path: ./data/TERC_Urzedowy_2018-02-24.csv
   type:
-    province: null
-    city: miasto
+    province: wojew\xf3dztwo
+    city: 
+      regular: miasto
+      capital: 
+      county: miasto na prawach powiatu
+    commune: 
+      city: gmina miejska
+      village: gmina wiejska
+      city_village: gmina miejsko-wiejska
+    county: powiat
+    village: obszar wiejski
+    district:
+      regular: dzielnica
+      delegacy: delegatura
+      
+    
 mongo:
   host: localhost
   port: 27017

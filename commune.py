@@ -10,12 +10,12 @@ mongo = MongoClient(cfg['mongo']['host'], cfg['mongo']['port'])
 db = mongo.teryt
 
 
-# functions to manipulate city collection
-class CityDAO:
+# functions to manipulate commune collection
+class CommuneDAO:
     
     # get all
     def find_all(self):
-        cursor = db.city.find()
+        cursor = db.commune.find()
         result = []
         for c in cursor:
             data = {}
@@ -27,11 +27,10 @@ class CityDAO:
         return result
     
     # save city
-    def save(self, id, province_id, name, type, timestamp):
-        return db.city.insert_one(
+    def save(self, id, name, type, timestamp):
+        return db.commune.insert_one(
                 {
                     "id" : id,
-                    "province_id" : province_id,
                     "name" : name,
                     "type" : type,
                     "timestamp": timestamp
@@ -39,4 +38,4 @@ class CityDAO:
             )
         
     def truncate(self):
-        db.city.drop()
+        db.commune.drop()
