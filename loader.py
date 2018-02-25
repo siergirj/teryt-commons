@@ -38,8 +38,6 @@ def load_terc():
         r = csv.reader(file, delimiter=';')
         r.next()
         
-        r.encoding()
-        
         type = cfg['terc']['type']
      
         for row in r:
@@ -54,7 +52,7 @@ def load_terc():
                     county.save(row[0], row[4], row[6])
                 elif row[5] in [type['district']['regular'], type['district']['delegacy']]:        
                     district.save(row[0], row[4], row[5], row[6])
-                elif row[5] == type['province']:  
+                elif row[5].decode('utf-8') == type['province']:  
                     province.save(row[0], row[4], row[6])
                 
                 else:

@@ -1,7 +1,7 @@
 terc:
   path: ./data/TERC_Urzedowy_2018-02-24.csv
   type:
-    province: wojew\xf3dztwo
+    province: województwo
     city: 
       regular: miasto
       capital: 
