@@ -43,7 +43,7 @@ def load_terc():
         type = cfg['terc']['type']
      
         for row in r:
-            if row:  # if row not empty
+            if row: # if row not empty
                 if row[5] in [type['city']['regular'], type['city']['capital'], type['city']['county']]:  # if row represents city
                     city.save('test_id', row[0], row[4], row[5], row[6])
                 elif row[5] in [type['commune']['city'], type['commune']['village'], type['commune']['city_village']]:
