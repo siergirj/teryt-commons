@@ -10,7 +10,7 @@ terc:
       city: gmina miejska
       village: gmina wiejska
       city_village: gmina miejsko-wiejska
-      capital: gmina miejska, miasto stołeczne
+      capital: gmina miejska, miasto stoeczne
     county: powiat
     village: obszar wiejski
     district:
