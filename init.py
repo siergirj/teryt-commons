@@ -1,66 +1,38 @@
-import csv
-from src.city import CityDAO
-from province import ProvinceDAO
-from county import CountyDAO
-from commune import CommuneDAO
-from district import DistrictDAO
-from village import VillageDAO
-from utils import config
+#!/usr/bin/python
 
-# read configuration
-cfg = config()
+import logging
+import logging.config
+import argparse
 
-# DAO to manipulate collections
-city = CityDAO()
-province = ProvinceDAO()
-commune = CommuneDAO()
-county = CountyDAO()
-district = DistrictDAO()
-village = VillageDAO()
+import utils.mongo_service
 
- 
-# drop all collections before load 
-def refresh():
-    if cfg['mongo']['refresh']: 
-        city.truncate()
-        province.truncate()
-        commune.truncate()
-        county.truncate()
-        district.truncate()
-        village.truncate()
-
-
-# load TERC collections
-def load_terc():
-    # Load csv file
-    with open(cfg['terc']['path']) as file:
-        # read & skip headers
-        r = csv.reader(file, delimiter=';')
-        r.next()
-        
-        type = cfg['terc']['type']
-     
-        for row in r:
-            if row:  # if row not empty
-                if row[5].decode('utf-8') in [type['city']['regular'], type['city']['capital'], type['city']['county']]:  # if row represents city
-                    city.save('test_id', row[0], row[4], row[5], row[6])
-                elif row[5].decode('utf-8') in [type['commune']['city'], type['commune']['village'], type['commune']['city_village'], type['commune']['capital']]:
-                    commune.save(row[0], row[4], row[5], row[6])
-                elif row[5] == type['village']:  
-                    village.save(row[0], row[4], row[6])
-                elif row[5] == type['county']:        
-                    county.save(row[0], row[4], row[6])
-                elif row[5] in [type['district']['regular'], type['district']['delegacy']]:        
-                    district.save(row[0], row[4], row[5], row[6])
-                elif row[5].decode('utf-8') == type['province']:  
-                    province.save(row[0], row[4], row[6])
+# Load logger configuration
+logging.config.fileConfig('logging.conf')
 
 def main():
+    # parse command line arguments
+    parser = argparse.ArgumentParser(description='Load TERC from csv file into MongoDB.')
+    parser.add_argument('-d', action='store_true', help='refresh all collections (drop all before load)')
+    parser.add_argument('-t', action='store_true', help='load TERC from default directory')
+    parser.add_argument('--log', dest='level', help='set log level (default=INFO)', default='INFO')
+
+    # parse input parameters 
+    args = parser.parse_args()
+    
+    # create logger for this APP
+    logger = logging.getLogger('TERC loading')
+    # set logging level from argv
+    logger.setLevel(args.level)
+
     # drop all collections before load 
-    refresh()
+    if args.d:
+        utils.mongo_service.refresh()
+        logger.info('All collections dropped')
 
     # load TERC collections
-    load_terc()
+    if args.t:
+        utils.mongo_service.load_terc()
+        logger.info('TERC loaded')
 
 
 if __name__ == "__main__":
